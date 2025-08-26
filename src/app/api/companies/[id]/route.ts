@@ -144,12 +144,9 @@ const companiesData = {
   }
 };
 
-export async function GET(
-  request: Request,
-  { params }: { params: { id: string } }
-) {
+export async function GET(request: Request, context: any) {
   try {
-    const companyId = parseInt(params.id);
+    const companyId = parseInt(context?.params?.id);
     
     // Simulate API delay
     await new Promise(resolve => setTimeout(resolve, 300));
