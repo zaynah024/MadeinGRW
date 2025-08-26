@@ -378,7 +378,7 @@ export default function ProductDetail() {
                     {product.description}
                   </p>
                   <div className="flex items-center justify-between">
-                    <span className="text-[#FCD900] font-semibold text-sm bg-yellow-100 px-2 py-1 rounded-full">
+                    <span className="text-[#FCD900] font-semibold text-sm  px-2 py-1 rounded-full">
                       {product.category}
                     </span>
                     <button className="bg-[#FCD900] text-black px-4 py-2 rounded-md text-sm font-medium hover:bg-yellow-500 transition-colors">

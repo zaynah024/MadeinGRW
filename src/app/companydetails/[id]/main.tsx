@@ -427,13 +427,16 @@ export default function CompanyDetails() {
           {/* Right Sidebar */}
           <div className="md:w-[30%] overflow-x-hidden">
             <div className="w-full flex justify-end overflow-x-hidden">
-              <Image
-                src={company.logo}
-                width={300}
-                height={100}
-                alt={`${company.name} Logo`}
-                className="w-full h-auto object-contain max-w-full"
-              />
+              {/* Square logo container to keep consistent aspect ratio */}
+              <div className="w-32 h-32 md:w-40 md:h-40 bg-white rounded-md flex items-center justify-center overflow-hidden border border-gray-100 shadow-sm">
+                <Image
+                  src={company.logo}
+                  width={160}
+                  height={160}
+                  alt={`${company.name} Logo`}
+                  className="w-full h-full object-contain object-center"
+                />
+              </div>
             </div>
             <div className="p-4 space-y-6 overflow-x-hidden">
               <p className="break-words">

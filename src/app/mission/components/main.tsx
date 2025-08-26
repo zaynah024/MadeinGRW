@@ -1,8 +1,30 @@
 "use client";
 import Image from "next/image";
 import { FaChevronRight } from "react-icons/fa";
+import { useEffect, useRef, useState } from "react";
 
 export default function MissionSection() {
+  const rightRef = useRef<HTMLDivElement | null>(null);
+  const [rightVisible, setRightVisible] = useState(false);
+
+  useEffect(() => {
+    const el = rightRef.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setRightVisible(true);
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.15 }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
   return (
     <div className="relative">
       {/* Background */}
@@ -62,7 +84,12 @@ export default function MissionSection() {
               </div>
 
               {/* Right Side Image */}
-              <div className="w-full flex justify-center items-center">
+              <div
+                ref={rightRef}
+                className={`w-full flex justify-center items-center transform transition-all duration-700 ease-out ${
+                  rightVisible ? "translate-x-0 opacity-100" : "translate-x-8 opacity-0"
+                }`}
+              >
                 <Image
                   src="/images/newsdetail/3.png"
                   alt="Mission"

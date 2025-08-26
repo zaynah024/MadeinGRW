@@ -117,18 +117,22 @@ export default function SectorsDetail() {
   const [isVisible, setIsVisible] = useState(false);
   const [animatedCards, setAnimatedCards] = useState<number[]>([]);
   const sectionRef = useRef<HTMLElement>(null);
-
+  const [itemsPerPage, setItemsPerPage] = useState<number>(12);
+  
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             setIsVisible(true);
-            // Animate cards one by one with staggered delays
-            sectors.forEach((_, index) => {
+            // Animate initially visible cards (staggered)
+            const initialCount = Math.min(itemsPerPage, sectors.length);
+            sectors.slice(0, initialCount).forEach((_, index) => {
               setTimeout(() => {
-                setAnimatedCards(prev => [...prev, index]);
-              }, index * 80); // Faster animation for more cards
+                setAnimatedCards(prev =>
+                  prev.includes(index) ? prev : [...prev, index]
+                );
+              }, index * 80);
             });
             observer.unobserve(entry.target);
           }
@@ -143,6 +147,19 @@ export default function SectorsDetail() {
 
     return () => observer.disconnect();
   }, []);
+
+  // When user clicks "Load More" (itemsPerPage changes) animate the newly visible cards
+  useEffect(() => {
+    if (!isVisible) return;
+    const start = animatedCards.length;
+    const end = Math.min(itemsPerPage, sectors.length);
+    for (let i = start; i < end; i++) {
+      const delay = (i - start) * 80;
+      setTimeout(() => {
+        setAnimatedCards(prev => (prev.includes(i) ? prev : [...prev, i]));
+      }, delay);
+    }
+  }, [itemsPerPage, isVisible]);
 
   return (
     <section ref={sectionRef} className="w-[90%] mx-auto my-20">
@@ -180,7 +197,7 @@ export default function SectorsDetail() {
 
       {/* Grid */}
       <div className="grid md:grid-cols-4 gap-8">
-        {sectors.map((sector, index) => (
+        {sectors.slice(0, itemsPerPage).map((sector, index) => (
           <div 
             key={index} 
             className={`relative transform transition-all duration-800 ease-out hover:scale-105 ${
@@ -216,6 +233,21 @@ export default function SectorsDetail() {
           </div>
         ))}
       </div>
+
+      {/* Load More */}
+      {sectors.length > itemsPerPage && (
+        <div className="text-center mt-8">
+          <div className="mb-4 text-gray-600">
+            Showing {Math.min(itemsPerPage, sectors.length)} of {sectors.length} sectors
+          </div>
+          <button
+            onClick={() => setItemsPerPage(prev => Math.min(sectors.length, prev + 12))}
+            className="bg-[#FCD900] hover:bg-yellow-500 text-black px-8 py-3 font-medium rounded-lg transition-colors duration-300 flex items-center gap-2 mx-auto"
+          >
+            Load More <FaArrowRight />
+          </button>
+        </div>
+      )}
 
       {/* Call to Action */}
       <div className="text-center mt-16">
