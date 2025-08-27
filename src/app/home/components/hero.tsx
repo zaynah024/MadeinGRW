@@ -1,39 +1,54 @@
 "use client";
 
-import React from 'react';
+import React from "react";
+import Image from "next/image";
 
 const HeroSection = () => {
   return (
-    <div className="relative w-full overflow-hidden" style={{ height: 'calc(100vh - 120px)' }}>
-      {/* Background Image - Sticks to section */}
-      <div 
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+    <div
+      className="relative w-full overflow-hidden md:h-[calc(100vh-120px)]"
+      // ❌ remove fixed height on mobile, keep only for md+
+    >
+      {/* Desktop Background Image */}
+      <div
+        className="absolute inset-0 hidden md:block bg-cover bg-center bg-no-repeat"
         style={{
           backgroundImage: "url('/images/homebg.png')",
-          backgroundSize: '100%',
-          backgroundPosition: 'top center'
+          backgroundSize: "100%",
+          backgroundPosition: "top center",
         }}
-      >
-      </div>
-      
-      {/* Content Container - Starts immediately after header */}
-      <div className="relative z-10 h-full flex items-start pt-40 ml-20">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="max-w-2xl">
-            {/* Main Headline - Smaller size and black color */}
+      ></div>
+
+      {/* Content */}
+      <div className="relative z-10 flex flex-col md:flex-row items-start pt-20 md:pt-40 md:ml-20">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row">
+          <div className="max-w-2xl text-center md:text-left">
+            {/* Headline */}
             <h1 className="text-black text-2xl md:text-3xl lg:text-4xl font-semi-bold mb-6 leading-tight animate-fade-in-left">
               <span className="block font-['Roboto']">Crafted with Pride -</span>
               <span className="block font-['Roboto']">Made in Gujranwala</span>
             </h1>
-            
-            {/* Yellow accent line - smaller width with line completion animation */}
-            <div className="w-50 h-1 bg-[#FCD900] mb-4 animate-line-complete"></div>
-            
-            {/* Subheading - Smaller size and black color */}
+
+            {/* Yellow Line */}
+            <div className="mx-auto md:mx-0 w-50 h-1 bg-[#FCD900] mb-4 animate-line-complete"></div>
+
+            {/* Subheading */}
             <p className="text-black text-sm md:text-base lg:text-lg mb-8 leading-relaxed max-w-xl animate-fade-in-left-delayed">
-              Experience the heritage, skill, and quality from the heart <br></br>
+              Experience the heritage, skill, and quality from the heart <br />
               of Pakistan's industrial city.
             </p>
+          </div>
+
+          {/* Mobile Image (below text) */}
+          <div className="mt-6 md:hidden flex justify-center">
+            <Image
+              src="/images/homebg.png"
+              alt="Made in Gujranwala"
+              width={600}
+              height={400}
+              className="rounded-lg shadow-md w-full h-auto"
+              priority
+            />
           </div>
         </div>
       </div>
@@ -49,7 +64,7 @@ const HeroSection = () => {
             transform: translateX(0);
           }
         }
-        
+
         @keyframes lineComplete {
           from {
             width: 0;
@@ -58,17 +73,17 @@ const HeroSection = () => {
             width: 200px;
           }
         }
-        
+
         .animate-fade-in-left {
           animation: fadeInLeft 1s ease-out forwards;
           opacity: 0;
         }
-        
+
         .animate-fade-in-left-delayed {
           animation: fadeInLeft 1s ease-out 0.5s forwards;
           opacity: 0;
         }
-        
+
         .animate-line-complete {
           animation: lineComplete 1.2s ease-out 0.3s forwards;
           width: 0;

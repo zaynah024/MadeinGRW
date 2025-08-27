@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { ArrowRight } from "lucide-react";
-import {  FaArrowRight } from "react-icons/fa6";
+import { FaArrowRight } from "react-icons/fa6";
 import { useEffect, useRef, useState } from "react";
 
 // Fallback data - will be used if API fails or during loading
@@ -63,7 +63,6 @@ const fallbackSectors = [
     description: "Plastic manufacturing and processing",
     category: "Manufacturing"
   },
-  
 ];
 
 // Function to get different background overlay for each sector
@@ -94,7 +93,6 @@ export default function IndustrialSectors() {
   const [sectors, setSectors] = useState<Sector[]>(fallbackSectors);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [isVisible, setIsVisible] = useState(false);
   const [animatedCards, setAnimatedCards] = useState<number[]>([]);
   const sectionRef = useRef<HTMLElement>(null);
 
@@ -104,14 +102,12 @@ export default function IndustrialSectors() {
       try {
         setIsLoading(true);
         setError(null);
-        
-        // Try to fetch from backend API
+
         const response = await fetch('/api/sectors', {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
           },
-          // Add timeout to prevent hanging
           signal: AbortSignal.timeout(5000)
         });
 
@@ -120,19 +116,16 @@ export default function IndustrialSectors() {
         }
 
         const data = await response.json();
-        
-        // Validate the response data
+
         if (data && Array.isArray(data.sectors) && data.sectors.length > 0) {
           setSectors(data.sectors);
         } else {
-          // If API returns empty or invalid data, use fallback
           console.warn('API returned invalid data, using fallback');
           setSectors(fallbackSectors);
         }
       } catch (err) {
         console.error('Error fetching sectors:', err);
         setError(err instanceof Error ? err.message : 'Failed to fetch sectors');
-        // Use fallback data on error
         setSectors(fallbackSectors);
       } finally {
         setIsLoading(false);
@@ -148,12 +141,10 @@ export default function IndustrialSectors() {
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            setIsVisible(true);
-            // Animate cards one by one with staggered delays
             sectors.forEach((_, index) => {
               setTimeout(() => {
                 setAnimatedCards(prev => [...prev, index]);
-              }, index * 100); // 100ms delay between each card
+              }, index * 100);
             });
             observer.unobserve(entry.target);
           }
@@ -167,9 +158,8 @@ export default function IndustrialSectors() {
     }
 
     return () => observer.disconnect();
-  }, [sectors]); // Re-run when sectors change
+  }, [sectors]);
 
-  // Loading state
   if (isLoading) {
     return (
       <section className="w-[85%] mx-auto my-20">
@@ -179,8 +169,6 @@ export default function IndustrialSectors() {
             Industrial Sectors of <br /> Gujranwala
           </p>
         </div>
-        
-        {/* Loading skeleton */}
         <div className="grid md:grid-cols-4 my-10 gap-10">
           {[...Array(8)].map((_, index) => (
             <div key={index} className="relative animate-pulse">
@@ -196,14 +184,11 @@ export default function IndustrialSectors() {
 
   return (
     <section ref={sectionRef} className="w-[85%] mx-auto my-20">
-      {/* Heading */}
       <div>
         <p className="text-gray-500 font-semibold">OUR INDUSTRIAL SECTORS</p>
         <p className="text-2xl md:text-4xl mb-4 relative inline-block pb-2 after:content-[''] after:absolute after:bottom-[-15px] after:left-10 after:w-[60%] after:h-[8px] after:bg-yellow-400">
           Industrial Sectors of <br /> Gujranwala
         </p>
-        
-        {/* Error message if any */}
         {error && (
           <div className="mb-4 p-3 bg-yellow-50 border border-yellow-200 rounded text-yellow-800 text-sm">
             ⚠️ Using fallback data: {error}
@@ -212,38 +197,43 @@ export default function IndustrialSectors() {
       </div>
 
       {/* Grid */}
-      <div className="grid md:grid-cols-4 my-10 gap-10">
+      <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 my-10 gap-6 sm:gap-8 md:gap-10">
         {sectors.slice(0, 8).map((sector, index) => (
           <div 
             key={sector.id || index} 
-            className={`relative transform transition-all duration-1000 ease-out hover:scale-105 ${
+            className={`relative transform transition-all duration-1000 ease-out hover:scale-105 rounded-lg overflow-hidden ${
               animatedCards.includes(index) 
                 ? 'opacity-100 translate-y-0 scale-100' 
                 : 'opacity-0 translate-y-20 scale-95'
             }`}
-            style={{
-              transitionDelay: animatedCards.includes(index) ? '0ms' : '0ms',
-              transitionTimingFunction: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)'
-            }}
           >
-            <span className="p-2 px-3 rounded-full absolute right-2 top-2 -rotate-45 bg-[#FCD900] w-12 h-12 flex items-center justify-center transform transition-all duration-300 ease-out hover:scale-110 hover:shadow-lg">
-              <ArrowRight className="w-4 h-4" />
+            {/* Arrow circle - always on top */}
+           <a href="/sectordetail ">
+             <span className="p-1.5 sm:p-2 px-2.5 sm:px-3 rounded-full absolute right-1 sm:right-2 top-1 sm:top-2 -rotate-45 bg-[#FCD900] 
+              w-8 h-8 sm:w-12 sm:h-12 flex items-center justify-center transform transition-all duration-300 ease-out 
+              hover:scale-110 hover:shadow-lg z-30">
+              <ArrowRight className="w-3 h-3 sm:w-4 sm:h-4" />
             </span>
+</a>
+            {/* Sector image */}
             <Image
               src={sector.img}
               alt={sector.title}
               width={400}
               height={300}
-              className="w-full h-auto"
+              className="w-full h-auto object-cover z-0"
             />
+
             <Image
               src={getBackgroundOverlay(index)}
               alt="background"
               width={400}
               height={300}
-              className="absolute top-0"
+              className="absolute top-0 left-0 w-full h-full object-cover z-10"
             />
-            <p className="text-white text-lg absolute bottom-2 left-8">
+
+            {/* Title */}
+            <p className="text-white text-lg absolute bottom-2 left-4 sm:left-8 z-20">
               {sector.title}
             </p>
           </div>
@@ -251,10 +241,10 @@ export default function IndustrialSectors() {
       </div>
 
       {/* Button */}
-      <div className="flex justify-center items-center">
+      <div className="flex justify-center items-center mt-6 sm:mt-10">
         <a
           href="/sectordetail"
-          className="bg-[#FCD900] flex items-center gap-4 px-10 py-2 font-medium hover:bg-yellow-500 transition rounded"
+          className="bg-[#FCD900] flex items-center gap-3 sm:gap-4 px-6 sm:px-10 py-2 font-medium hover:bg-yellow-500 transition rounded"
         >
           Explore More <FaArrowRight />
         </a>

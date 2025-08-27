@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useState, useEffect, useRef } from "react";
-import { FaEarthAmericas, FaArrowRight } from "react-icons/fa6";
+import { FaEarthAmericas } from "react-icons/fa6";
 
 const fallbackIndustries = [
   {
@@ -40,25 +40,19 @@ const categories = ["All", "Steel", "Ceramic", "Furniture", "Sports"];
 export default function IndustriesDetail() {
   const [activeCategory, setActiveCategory] = useState("All");
   const [industries, setIndustries] = useState(fallbackIndustries);
-  const [isVisible, setIsVisible] = useState(false);
   const [animatedCards, setAnimatedCards] = useState<number[]>([]);
   const sectionRef = useRef<HTMLElement>(null);
-  const [itemsPerPage, setItemsPerPage] = useState<number>(16);
-  const [sortBy, setSortBy] = useState<string>("default");
 
-  // Filter industries based on active category
   const filteredIndustries =
     activeCategory === "All"
       ? industries
       : industries.filter((industry) => industry.category === activeCategory);
 
-  // Animation effect
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            setIsVisible(true);
             filteredIndustries.forEach((_, index) => {
               setTimeout(() => {
                 setAnimatedCards((prev) => [...prev, index]);
@@ -78,7 +72,6 @@ export default function IndustriesDetail() {
     return () => observer.disconnect();
   }, [filteredIndustries]);
 
-  // Reset animations when category changes
   useEffect(() => {
     setAnimatedCards([]);
   }, [activeCategory]);
@@ -94,7 +87,6 @@ export default function IndustriesDetail() {
           alt="Industry Background"
           className="min-h-72 md:min-h-auto object-cover w-full"
         />
-
         <div className="absolute top-20 left-6 md:top-32 md:left-20 space-y-4 text-white">
           <div className="flex items-center text-gray-400 text-xs gap-1">
             <span>Home</span>
@@ -118,8 +110,6 @@ export default function IndustriesDetail() {
                 ? "Explore companies across all sectors driving Pakistan's growth with quality and innovation."
                 : "Category specific description goes here."}
             </p>
-
-            {/* UPDATED Explore Button */}
             <button
               onClick={() => {
                 document
@@ -141,18 +131,18 @@ export default function IndustriesDetail() {
         ref={sectionRef}
         className="w-[90%] mx-auto my-20"
       >
-        {/* Categories + Cards */}
         <div className="flex flex-col lg:flex-row gap-10 my-10">
-          {/* Sidebar */}
+          {/* Sidebar / Categories */}
           <div className="w-full lg:w-[20%]">
             <h3 className="text-lg font-semibold mb-4 text-gray-800">
               Categories
             </h3>
-            <ul className="space-y-2 max-h-96 overflow-y-auto">
+            {/* Horizontal scroll on mobile */}
+            <ul className="flex lg:flex-col gap-2 overflow-x-auto lg:overflow-y-auto no-scrollbar">
               {categories.map((cat) => (
                 <li
                   key={cat}
-                  className={`px-4 py-2 cursor-pointer rounded transition-colors ${
+                  className={`px-4 py-2 cursor-pointer rounded transition-colors whitespace-nowrap ${
                     activeCategory === cat
                       ? "text-[#2947A9] font-semibold bg-blue-50 border-l-4 border-[#2947A9]"
                       : "text-gray-600 hover:text-[#2947A9] hover:bg-gray-50"
@@ -166,7 +156,7 @@ export default function IndustriesDetail() {
           </div>
 
           {/* Cards */}
-          <div className="lg:w-[80%] grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="lg:w-[80%] grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {filteredIndustries.map((industry, index) => (
               <div
                 key={industry.id}

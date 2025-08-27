@@ -295,37 +295,38 @@ export default function CompanyDetails() {
             </div>
 
             {/* Tabs */}
-            <div className="py-10 overflow-x-hidden">
-              <div className="flex gap-4 border-b pb-2 overflow-x-hidden">
-                <button
-                  className={`py-2 px-8 rounded-t-lg transition-colors flex-shrink-0 ${
-                    activeTab === "profile" ? "bg-[#FCD900] text-black" : "text-gray-600 hover:text-[#FCD900]"
-                  }`}
-                  onClick={() => setActiveTab("profile")}
-                >
-                  Company Profile
-                </button>
-                {company.additionalInfo && Object.keys(company.additionalInfo).length > 0 && (
-                  <button
-                    className={`py-2 px-8 rounded-t-lg transition-colors flex-shrink-0 ${
-                      activeTab === "info" ? "bg-[#FCD900] text-black" : "text-gray-600 hover:text-[#FCD900]"
-                    }`}
-                    onClick={() => setActiveTab("info")}
-                  >
-                    Additional Information
-                  </button>
-                )}
-                {company.reviews && Array.isArray(company.reviews) && company.reviews.length > 0 && (
-                  <button
-                    className={`py-2 px-8 rounded-t-lg transition-colors flex-shrink-0 ${
-                      activeTab === "reviews" ? "bg-[#FCD900] text-black" : "text-gray-600 hover:text-[#FCD900]"
-                    }`}
-                    onClick={() => setActiveTab("reviews")}
-                  >
-                    Reviews ({company.reviews.length})
-                  </button>
-                )}
-              </div>
+<div className="py-10 overflow-x-hidden">
+  <div className="flex gap-4 border-b pb-2 overflow-x-auto whitespace-nowrap">
+    <button
+      className={`py-2 px-8 rounded-t-lg transition-colors flex-shrink-0 ${
+        activeTab === "profile" ? "bg-[#FCD900] text-black" : "text-gray-600 hover:text-[#FCD900]"
+      }`}
+      onClick={() => setActiveTab("profile")}
+    >
+      Company Profile
+    </button>
+    {company.additionalInfo && Object.keys(company.additionalInfo).length > 0 && (
+      <button
+        className={`py-2 px-8 rounded-t-lg transition-colors flex-shrink-0 ${
+          activeTab === "info" ? "bg-[#FCD900] text-black" : "text-gray-600 hover:text-[#FCD900]"
+        }`}
+        onClick={() => setActiveTab("info")}
+      >
+        Additional Information
+      </button>
+    )}
+    {company.reviews && Array.isArray(company.reviews) && company.reviews.length > 0 && (
+      <button
+        className={`py-2 px-8 rounded-t-lg transition-colors flex-shrink-0 ${
+          activeTab === "reviews" ? "bg-[#FCD900] text-black" : "text-gray-600 hover:text-[#FCD900]"
+        }`}
+        onClick={() => setActiveTab("reviews")}
+      >
+        Reviews ({company.reviews.length})
+      </button>
+    )}
+  </div>
+
 
               {activeTab === "profile" && (
                 <div className="bg-white border border-gray-200 rounded-lg p-6 mt-4 shadow-sm overflow-x-hidden">
@@ -511,186 +512,75 @@ export default function CompanyDetails() {
         </div>
 
         {/* Products Section */}
-        <div className="my-10 overflow-x-hidden">
-          <p className="text-xs font-medium text-gray-500">
-            PRODUCTS BY THIS COMPANY
+<div className="my-10 overflow-x-hidden">
+  <p className="text-xs font-medium text-gray-500">
+    PRODUCTS BY THIS COMPANY
+  </p>
+  <p className="text-4xl mb-4 relative inline-block pb-2 after:content-[''] after:absolute after:bottom-[-8px] after:left-0 after:w-[40%] after:h-[6px] after:bg-yellow-400">
+    OUR PRODUCTS
+  </p>
+
+  {/* Desktop: horizontal scroll */}
+  <div className="hidden md:block my-10">
+    <div className="flex gap-8 overflow-x-auto pb-4 scrollbar-hide scroll-smooth">
+      {allProducts.map((product) => (
+        <div key={product.id} className="hover:scale-105 transition-transform flex-shrink-0 w-64">
+          <Image
+            src={product.image}
+            width={250}
+            height={250}
+            alt={product.name}
+            className="w-full h-auto"
+          />
+          <p className="text-center mt-2 text-xl font-medium" style={{ fontFamily: 'DM Sans, sans-serif' }}>
+            {product.name}
           </p>
-          <p className="text-4xl mb-4 relative inline-block pb-2 after:content-[''] after:absolute after:bottom-[-8px] after:left-0 after:w-[40%] after:h-[6px] after:bg-yellow-400">
-            OUR PRODUCTS
-          </p>
-
-          <div className="my-10 overflow-x-hidden">
-            {/* Products Grid with Scroller */}
-            <div className="relative overflow-x-hidden">
-              <div className="flex gap-8 overflow-x-auto pb-4 scrollbar-hide scroll-smooth overflow-y-hidden" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
-                {/* Product 1 - Air Cooler */}
-                <div className="hover:scale-105 transition-transform flex-shrink-0 w-64">
-                  <Image
-                    src="/images/main/products/aircooler.png"
-                    width={250}
-                    height={250}
-                    alt="Air Cooler"
-                    className="w-full h-auto"
-                  />
-                  <p className="text-center mt-2 text-xl font-medium" style={{ fontFamily: 'DM Sans, sans-serif' }}>
-                    Air Cooler
-                  </p>
-                </div>
-
-                {/* Product 2 - Refrigerator */}
-                <div className="hover:scale-105 transition-transform flex-shrink-0 w-64">
-                  <Image
-                    src="/images/main/products/fridge.png"
-                    width={250}
-                    height={250}
-                    alt="Refrigerator"
-                    className="w-full h-auto"
-                  />
-                  <p className="text-center mt-2 text-xl font-medium" style={{ fontFamily: 'DM Sans, sans-serif' }}>
-                    Refrigerator
-                  </p>
-                </div>
-
-                {/* Product 3 - Spin Dryer */}
-                <div className="hover:scale-105 transition-transform flex-shrink-0 w-64">
-                  <Image
-                    src="/images/main/products/spindryer.png"
-                    width={250}
-                    height={250}
-                    alt="Spin Dryer"
-                    className="w-full h-auto"
-                  />
-                  <p className="text-center mt-2 text-xl font-medium" style={{ fontFamily: 'DM Sans, sans-serif' }}>
-                    Spin Dryer
-                  </p>
-                </div>
-
-                {/* Product 4 - Washing Machine */}
-                <div className="hover:scale-105 transition-transform flex-shrink-0 w-64">
-                  <Image
-                    src="/images/main/products/washingmachine.png"
-                    width={250}
-                    height={250}
-                    alt="Washing Machine"
-                    className="w-full h-auto"
-                  />
-                  <p className="text-center mt-2 text-xl font-medium" style={{ fontFamily: 'DM Sans, sans-serif' }}>
-                    Washing Machine
-                  </p>
-                </div>
-
-                {/* Additional Products for Scrolling */}
-                {/* Product 5 - Microwave */}
-                <div className="hover:scale-105 transition-transform flex-shrink-0 w-64">
-                  <Image
-                    src="/images/main/products/fridge.png"
-                    width={250}
-                    height={250}
-                    alt="Microwave"
-                    className="w-full h-auto"
-                  />
-                  <p className="text-center mt-2 text-xl font-medium" style={{ fontFamily: 'DM Sans, sans-serif' }}>
-                    Microwave
-                  </p>
-                </div>
-
-                {/* Product 6 - Electric Fan */}
-                <div className="hover:scale-105 transition-transform flex-shrink-0 w-64">
-                  <Image
-                    src="/images/main/products/aircooler.png"
-                    width={250}
-                    height={250}
-                    alt="Electric Fan"
-                    className="w-full h-auto"
-                  />
-                  <p className="text-center mt-2 text-xl font-medium" style={{ fontFamily: 'DM Sans, sans-serif' }}>
-                    Electric Fan
-                  </p>
-                </div>
-
-                {/* Product 7 - Water Heater */}
-                <div className="hover:scale-105 transition-transform flex-shrink-0 w-64">
-                  <Image
-                    src="/images/main/products/washingmachine.png"
-                    width={250}
-                    height={250}
-                    alt="Water Heater"
-                    className="w-full h-auto"
-                  />
-                  <p className="text-center mt-2 text-xl font-medium" style={{ fontFamily: 'DM Sans, sans-serif' }}>
-                    Water Heater
-                  </p>
-                </div>
-
-                {/* Product 8 - Coffee Maker */}
-                <div className="hover:scale-105 transition-transform flex-shrink-0 w-64">
-                  <Image
-                    src="/images/main/products/spindryer.png"
-                    width={250}
-                    height={250}
-                    alt="Coffee Maker"
-                    className="w-full h-auto"
-                  />
-                  <p className="text-center mt-2 text-xl font-medium" style={{ fontFamily: 'DM Sans, sans-serif' }}>
-                    Coffee Maker
-                  </p>
-                </div>
-              </div>
-
-              {/* Scroll Indicators */}
-              <div className="flex justify-center mt-4 gap-2">
-                <div className="w-2 h-2 bg-gray-300 rounded-full"></div>
-                <div className="w-2 h-2 bg-gray-300 rounded-full"></div>
-                <div className="w-2 h-2 bg-gray-300 rounded-full"></div>
-                <div className="w-2 h-2 bg-gray-300 rounded-full"></div>
-              </div>
-            </div>
-
-            {/* View All Button */}
-            <div className="flex justify-center mt-8">
-              <button
-                onClick={() => setShowAllProducts(!showAllProducts)}
-                className="bg-[#FCD900] hover:bg-yellow-500 text-black px-8 py-3 font-medium rounded-lg transition-colors duration-300 flex items-center gap-2"
-              >
-                {showAllProducts ? 'Show Less' : 'View All Products'}
-                <ArrowRight className={`w-5 h-5 transition-transform duration-300 ${showAllProducts ? 'rotate-180' : ''}`} />
-              </button>
-            </div>
-
-            {/* Expanded Products Grid */}
-            {showAllProducts && (
-              <div className="mt-8 overflow-x-hidden">
-                <h3 className="text-2xl font-semibold mb-6 text-center">All Products by {company.name}</h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                  {/* All Products Grid */}
-                  {allProducts.map((product, index) => (
-                    <div key={index} className="hover:scale-105 transition-transform duration-300 overflow-x-hidden">
-                      <div className="bg-white rounded-lg shadow-md overflow-hidden">
-                        <Image
-                          src={product.image}
-                          width={300}
-                          height={300}
-                          alt={product.name}
-                          className="w-full h-48 object-cover"
-                        />
-                        <div className="p-4">
-                          <h4 className="text-lg font-semibold text-gray-800 mb-2 break-words">{product.name}</h4>
-                          <p className="text-gray-600 text-sm mb-3 break-words">{product.description}</p>
-                          <div className="flex items-center justify-between">
-                            <span className="text-[#FCD900] font-semibold break-words">{product.category}</span>
-                            <button className="bg-[#FCD900] text-black px-4 py-2 rounded-md text-sm font-medium hover:bg-yellow-500 transition-colors flex-shrink-0">
-                              View Details
-                            </button>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
-          </div>
         </div>
+      ))}
+    </div>
+  </div>
+
+  {/* Mobile: stacked list */}
+  <div className="md:hidden bg-white border border-gray-200 rounded-lg p-4 space-y-4">
+    {(showAllProducts ? allProducts : allProducts.slice(0, 4)).map((product) => (
+      <div key={product.id} className="flex gap-3 items-start">
+        <Image
+          src={product.image}
+          width={50}
+          height={50}
+          alt={product.name}
+          className="w-12 h-12 object-cover flex-shrink-0"
+        />
+        <div className="overflow-x-hidden">
+          <p className="text-sm font-semibold break-words">{product.name}</p>
+          <p className="text-xs text-gray-500 break-words">{product.category}</p>
+        </div>
+      </div>
+    ))}
+    {!showAllProducts && allProducts.length > 4 && (
+      <button
+        className="mt-3 text-sm font-semibold text-[#6CA7FF] hover:underline"
+        onClick={() => setShowAllProducts(true)}
+      >
+        View All Products
+      </button>
+    )}
+  </div>
+
+  {/* Mobile "Show All / Show Less" button */}
+  {allProducts.length > 4 && (
+    <div className="flex justify-center mt-8 md:hidden">
+      <button
+        onClick={() => setShowAllProducts(!showAllProducts)}
+        className="bg-[#FCD900] hover:bg-yellow-500 text-black px-8 py-3 font-medium rounded-lg transition-colors duration-300 flex items-center gap-2"
+      >
+        {showAllProducts ? 'Show Less' : 'View All Products'}
+        <ArrowRight className={`w-5 h-5 transition-transform duration-300 ${showAllProducts ? 'rotate-180' : ''}`} />
+      </button>
+    </div>
+  )}
+</div>
+
       </main>
     </div>
   );

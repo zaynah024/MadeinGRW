@@ -245,183 +245,180 @@ export default function ProductDetail() {
 
   return (
     <div className="relative font-['Roboto',sans-serif] overflow-x-hidden max-w-full w-full">
-      {/* Background */}
-      <Image
-        src="/images/Background.png"
-        width={1920}
-        height={1080}
-        alt="Background"
-        className="absolute -z-10 w-full h-full object-cover"
+  {/* Background */}
+  <Image
+    src="/images/Background.png"
+    width={1920}
+    height={1080}
+    alt="Background"
+    className="absolute -z-10 w-full h-full object-cover"
+  />
+
+  <main className="w-[95%] lg:w-[85%] xl:w-[80%] mx-auto relative z-10 overflow-x-hidden max-w-full">
+    {/* Breadcrumb */}
+<div className="py-2 md:py-10 overflow-x-hidden">
+  <p className="text-3xl md:text-4xl font-medium">Product Catalog</p>
+  <div className="flex flex-wrap items-center text-gray-500 mt-2 text-xs gap-2">
+    <span>Home</span>
+    <span>→</span>
+    <span>Products</span>
+    <span>→</span>
+    <span>Product Catalog</span>
+  </div>
+</div>
+
+{/* Hero */}
+<div className="text-center mb-6 md:mb-12 px-2">
+  <h1 className="text-3xl md:text-5xl lg:text-6xl font-semibold mb-2 md:mb-6">
+    Our Product Collection
+  </h1>
+  <p className="text-sm md:text-lg lg:text-xl text-gray-600 max-w-3xl mx-auto">
+    Discover our comprehensive range of high-quality appliances and products,
+    all manufactured with precision and care in Gujranwala, Pakistan.
+  </p>
+</div>
+
+
+    {/* Filters and Search */}
+<div className="w-full flex justify-center mb-6 md:mb-8">
+  <div
+    className="rounded-lg p-4 md:p-6 flex flex-col lg:flex-row gap-4 md:gap-6 items-center justify-center shadow-md w-full max-w-5xl
+               bg-white/0 md:bg-white/80 backdrop-blur-none md:backdrop-blur-md"
+  >
+    {/* Search */}
+    <div className="relative flex-1 max-w-md">
+      <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+      <input
+        type="text"
+        placeholder="Search products..."
+        value={searchTerm}
+        onChange={(e) => setSearchTerm(e.target.value)}
+        className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#FCD900] focus:border-transparent text-sm md:text-base"
       />
-
-      <main className="w-[90%] md:w-[80%] mx-auto relative z-10 overflow-x-hidden max-w-full">
-        {/* Breadcrumb */}
-        <div className="py-10 overflow-x-hidden">
-          <p className="text-4xl font-medium">Product Catalog</p>
-          <div className="flex items-center text-gray-500 mt-2 text-xs gap-2">
-            <span>Home</span>
-            <span>→</span>
-            <span>Products</span>
-            <span>→</span>
-            <span>Product Catalog</span>
-          </div>
-        </div>
-
-        {/* Hero */}
-        <div className="text-center mb-12">
-          <h1 className="text-5xl md:text-7xl font-semibold mb-6">
-            Our Product Collection
-          </h1>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Discover our comprehensive range of high-quality appliances and
-            products, all manufactured with precision and care in Gujranwala,
-            Pakistan.
-          </p>
-        </div>
-
-        {/* Filters and Search - CENTERED */}
-        <div className="w-full flex justify-center mb-8">
-          <div className="bg-white/80 backdrop-blur-md rounded-lg p-6 flex flex-col lg:flex-row gap-6 items-center justify-center shadow-md w-full max-w-5xl">
-            {/* Search */}
-            <div className="relative flex-1 max-w-md">
-              <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
-              <input
-                type="text"
-                placeholder="Search products..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#FCD900] focus:border-transparent"
-              />
-            </div>
-
-            {/* Category */}
-            <div className="flex items-center gap-3">
-              <FaFilter className="text-gray-600" />
-              <select
-                value={activeCategory}
-                onChange={(e) => setActiveCategory(e.target.value)}
-                className="border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#FCD900] focus:border-transparent"
-              >
-                {categories.map((cat) => (
-                  <option key={cat} value={cat}>
-                    {cat}
-                  </option>
-                ))}
-              </select>
-            </div>
-
-            {/* Sort */}
-            <div className="flex items-center gap-3">
-              <span className="text-gray-600 font-medium">Sort by:</span>
-              <select
-                value={sortBy}
-                onChange={(e) => setSortBy(e.target.value)}
-                className="border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#FCD900] focus:border-transparent"
-              >
-                <option value="default">Default</option>
-                <option value="name">Name A-Z</option>
-                <option value="name-desc">Name Z-A</option>
-                <option value="category">Category</option>
-                <option value="newest">Newest</option>
-              </select>
-            </div>
-          </div>
-        </div>
-
-        {/* Error */}
-        {error && (
-          <div className="mb-6 p-4 bg-yellow-50 border border-yellow-200 rounded-lg text-yellow-800 text-sm">
-            ⚠️ Using fallback data: {error}
-          </div>
-        )}
-
-        {/* Results */}
-        <div className="mb-8 text-gray-600">
-          Showing {Math.min(itemsPerPage, sortedProducts.length)} of{" "}
-          {sortedProducts.length} products
-          {activeCategory !== "All" && ` in ${activeCategory}`}
-          {searchTerm && ` matching "${searchTerm}"`}
-        </div>
-
-        {/* Loading skeleton */}
-        {isLoading ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-            {[...Array(20)].map((_, index) => (
-              <div key={index} className="animate-pulse">
-                <div className="bg-gray-300 w-full h-64 rounded-lg"></div>
-                <div className="bg-gray-300 h-6 w-32 rounded mt-3 mx-auto"></div>
-                <div className="bg-gray-300 h-4 w-24 rounded mt-2 mx-auto"></div>
-              </div>
-            ))}
-          </div>
-        ) : (
-          /* Products Grid */
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 mb-12">
-            {sortedProducts.slice(0, itemsPerPage).map((product, index) => (
-              <div
-                key={product.id}
-                className="hover:scale-105 transition-all duration-500 ease-out hover:-translate-y-2 animate-fade-in-up transform bg-white rounded-lg shadow-md overflow-hidden"
-                style={{ animationDelay: `${index * 50}ms` }}
-              >
-                <Image
-                  src={product.src}
-                  alt={product.name}
-                  width={300}
-                  height={300}
-                  className="w-full h-48 object-cover transform transition-all duration-300 hover:scale-105 hover:brightness-110"
-                />
-                <div className="p-4">
-                  <h3 className="text-lg font-semibold text-gray-800 mb-2 text-center">
-                    {product.name}
-                  </h3>
-                  <p className="text-gray-600 text-sm mb-3 text-center line-clamp-2">
-                    {product.description}
-                  </p>
-                  <div className="flex items-center justify-between">
-                    <span className="text-[#FCD900] font-semibold text-sm  px-2 py-1 rounded-full">
-                      {product.category}
-                    </span>
-                    <button className="bg-[#FCD900] text-black px-4 py-2 rounded-md text-sm font-medium hover:bg-yellow-500 transition-colors">
-                      View Details
-                    </button>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        )}
-
-        {/* Load More */}
-        {sortedProducts.length > itemsPerPage && (
-          <div className="text-center mb-12">
-            <button
-              onClick={() => setItemsPerPage((prev) => prev + 8)}
-              className="bg-[#FCD900] hover:bg-yellow-500 text-black px-8 py-3 font-medium rounded-lg transition-colors duration-300 flex items-center gap-2 mx-auto"
-            >
-              Load More Products <FaArrowRight />
-            </button>
-          </div>
-        )}
-      </main>
-
-      {/* FULL WIDTH CTA */}
-      <div className="w-full bg-gradient-to-r from-[#FCD900] to-yellow-400 py-12 mt-12">
-        <div className="text-center w-[90%] md:w-[70%] mx-auto">
-          <h2 className="text-3xl font-semibold text-black mb-4">
-            Need Custom Solutions?
-          </h2>
-          <p className="text-black mb-6 max-w-2xl mx-auto">
-            We specialize in custom manufacturing and can create products
-            tailored to your specific requirements.
-          </p>
-          <a
-            href="/contactus"
-            className="bg-black text-white px-8 py-3 font-medium rounded-lg hover:bg-gray-800 transition-colors inline-flex items-center gap-2"
-          >
-            Get in Touch <FaArrowRight />
-          </a>
-        </div>
-      </div>
     </div>
+
+    {/* Category */}
+    <div className="flex items-center gap-2 md:gap-3 w-full lg:w-auto">
+      <FaFilter className="text-gray-600" />
+      <select
+        value={activeCategory}
+        onChange={(e) => setActiveCategory(e.target.value)}
+        className="border border-gray-300 rounded-lg px-3 md:px-4 py-2 text-sm md:text-base focus:outline-none focus:ring-2 focus:ring-[#FCD900] focus:border-transparent w-full lg:w-auto"
+      >
+        {categories.map((cat) => (
+          <option key={cat} value={cat}>
+            {cat}
+          </option>
+        ))}
+      </select>
+    </div>
+
+    {/* Sort */}
+    <div className="flex items-center gap-2 md:gap-3 w-full lg:w-auto">
+      <span className="text-gray-600 font-medium text-sm md:text-base">Sort by:</span>
+      <select
+        value={sortBy}
+        onChange={(e) => setSortBy(e.target.value)}
+        className="border border-gray-300 rounded-lg px-3 md:px-4 py-2 text-sm md:text-base focus:outline-none focus:ring-2 focus:ring-[#FCD900] focus:border-transparent w-full lg:w-auto"
+      >
+        <option value="default">Default</option>
+        <option value="name">Name A-Z</option>
+        <option value="name-desc">Name Z-A</option>
+        <option value="category">Category</option>
+        <option value="newest">Newest</option>
+      </select>
+    </div>
+  </div>
+</div>
+
+
+    {/* Results */}
+    <div className="mb-4 md:mb-6 text-gray-600 text-sm md:text-base">
+      Showing {Math.min(itemsPerPage, sortedProducts.length)} of{" "}
+      {sortedProducts.length} products
+      {activeCategory !== "All" && ` in ${activeCategory}`}
+      {searchTerm && ` matching "${searchTerm}"`}
+    </div>
+
+    {/* Loading skeleton */}
+    {isLoading ? (
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 md:gap-8">
+        {[...Array(20)].map((_, index) => (
+          <div key={index} className="animate-pulse">
+            <div className="bg-gray-300 w-full h-48 md:h-56 rounded-lg"></div>
+            <div className="bg-gray-300 h-6 w-32 rounded mt-3 mx-auto"></div>
+            <div className="bg-gray-300 h-4 w-24 rounded mt-2 mx-auto"></div>
+          </div>
+        ))}
+      </div>
+    ) : (
+      /* Products Grid */
+<div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mb-12">
+        {sortedProducts.slice(0, itemsPerPage).map((product, index) => (
+          <div
+            key={product.id}
+            className="hover:scale-105 transition-all duration-500 ease-out hover:-translate-y-1 transform bg-white rounded-lg shadow-md overflow-hidden"
+            style={{ animationDelay: `${index * 50}ms` }}
+          >
+            <Image
+              src={product.src}
+              alt={product.name}
+              width={300}
+              height={300}
+              className="w-full h-48 md:h-56 object-cover transform transition-all duration-300 hover:scale-105 hover:brightness-110"
+            />
+            <div className="p-4">
+              <h3 className="text-md md:text-lg font-semibold text-gray-800 mb-2 text-center">
+                {product.name}
+              </h3>
+              <p className="text-gray-600 text-sm md:text-base mb-3 text-center line-clamp-2">
+                {product.description}
+              </p>
+              <div className="flex items-center justify-between">
+                <span className="text-[#FCD900] font-semibold text-sm px-2 py-1 rounded-full text-center">
+                  {product.category}
+                </span>
+                <button className="bg-[#FCD900] text-black px-3 md:px-4 py-2 rounded-md text-sm md:text-base font-medium hover:bg-yellow-500 transition-colors">
+                  View Details
+                </button>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    )}
+
+    {/* Load More */}
+    {sortedProducts.length > itemsPerPage && (
+      <div className="text-center mb-12">
+        <button
+          onClick={() => setItemsPerPage((prev) => prev + 8)}
+          className="bg-[#FCD900] hover:bg-yellow-500 text-black px-6 md:px-8 py-3 font-medium rounded-lg transition-colors duration-300 flex items-center gap-2 mx-auto"
+        >
+          Load More Products <FaArrowRight />
+        </button>
+      </div>
+    )}
+  </main>
+
+  {/* FULL WIDTH CTA */}
+  <div className="w-full bg-gradient-to-r from-[#FCD900] to-yellow-400 py-10 md:py-12 mt-12">
+    <div className="text-center w-[95%] md:w-[80%] lg:w-[70%] mx-auto">
+      <h2 className="text-2xl md:text-3xl font-semibold text-black mb-4">
+        Need Custom Solutions?
+      </h2>
+      <p className="text-black mb-6 text-sm md:text-base max-w-2xl mx-auto">
+        We specialize in custom manufacturing and can create products tailored to your specific requirements.
+      </p>
+      <a
+        href="/contactus"
+        className="bg-black text-white px-6 md:px-8 py-3 font-medium rounded-lg hover:bg-gray-800 transition-colors inline-flex items-center gap-2"
+      >
+        Get in Touch <FaArrowRight />
+      </a>
+    </div>
+  </div>
+</div>
+
   );
 }

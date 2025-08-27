@@ -158,34 +158,43 @@ export default function ProductsSection() {
       )}
 
       {/* Loading state */}
-      {isLoading ? (
-        <div className="grid md:grid-cols-5 my-10 gap-10">
-          {[...Array(10)].map((_, index) => (
-            <div key={index} className="animate-pulse">
-              <div className="bg-gray-300 w-full h-64 rounded"></div>
-              <div className="bg-gray-300 h-6 w-32 rounded mt-2 mx-auto"></div>
-            </div>
-          ))}
-        </div>
-      ) : (
-        /* Product Grid */
-        <div className="grid md:grid-cols-5 my-10 gap-10">
-          {products.slice(0, 10).map((item, index) => (
-            <div key={item.id || index} className="hover:scale-105 transition-all duration-500 ease-out hover:-translate-y-2 animate-fade-in-up transform" style={{ animationDelay: `${index * 100}ms` }}>
-              <Image
-                src={item.src}
-                alt={`Product ${item.name}`}
-                width={250}
-                height={250}
-                className="w-full h-auto transform transition-all duration-300 hover:scale-105 hover:brightness-110"
-              />
-              <p className="text-center mt-2 text-3xl font-medium transform transition-all duration-300 hover:text-[#2947A9] hover:scale-105" style={{ fontFamily: 'DM Sans, sans-serif' }}>
-                {item.name}
-              </p>
-            </div>
-          ))}
-        </div>
-      )}
+      {/* Loading state */}
+{isLoading ? (
+  <div className="grid grid-cols-3 md:grid-cols-5 my-10 gap-6">
+    {[...Array(10)].map((_, index) => (
+      <div key={index} className="animate-pulse">
+        <div className="bg-gray-300 w-full h-40 sm:h-52 md:h-64 rounded"></div>
+        <div className="bg-gray-300 h-4 sm:h-5 md:h-6 w-20 sm:w-28 md:w-32 rounded mt-2 mx-auto"></div>
+      </div>
+    ))}
+  </div>
+) : (
+  /* Product Grid */
+  <div className="grid grid-cols-3 md:grid-cols-5 my-10 gap-6">
+    {products.slice(0, 10).map((item, index) => (
+      <div
+        key={item.id || index}
+        className="hover:scale-105 transition-all duration-500 ease-out hover:-translate-y-2 animate-fade-in-up transform"
+        style={{ animationDelay: `${index * 100}ms` }}
+      >
+        <Image
+          src={item.src}
+          alt={`Product ${item.name}`}
+          width={250}
+          height={250}
+          className="w-full h-auto transform transition-all duration-300 hover:scale-105 hover:brightness-110"
+        />
+        <p
+          className="text-center mt-2 text-base sm:text-xl md:text-3xl font-medium transform transition-all duration-300 hover:text-[#2947A9] hover:scale-105"
+          style={{ fontFamily: 'DM Sans, sans-serif' }}
+        >
+          {item.name}
+        </p>
+      </div>
+    ))}
+  </div>
+)}
+
 
       {/* Explore More Button */}
       <div className="flex justify-center items-center transform transition-all duration-500 ease-out animate-fade-in-up" style={{ animationDelay: '1000ms' }}>

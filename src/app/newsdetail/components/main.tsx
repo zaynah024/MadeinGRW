@@ -1,10 +1,26 @@
 "use client";
 import Image from "next/image";
-import { FaArrowRight } from "react-icons/fa";
+import { ArrowRight } from "lucide-react";
+import Link from "next/link";
+import { newsData } from "@/data/news";
+import type { NewsArticle } from "@/data/news";
 
-export default function NewsDetail() {
+export default function NewsDetail({ article }: { article: NewsArticle }) {
+  // derive related items: prefer explicit related list if present, otherwise show other latest items
+  const relatedItems = (() => {
+    const rel = (article as any)?.related;
+    if (Array.isArray(rel) && rel.length) {
+      // related may contain objects with id or plain ids
+      const ids = rel.map((r: any) => (typeof r === "string" ? r : String(r.id))).filter(Boolean);
+      return newsData.filter((n) => ids.includes(n.id));
+    }
+    // fallback: take up to 4 other articles
+    return newsData.filter((n) => n.id !== article.id).slice(0, 4);
+  })();
+
   return (
-    <div className="relative">
+    // make detail act like a full page
+    <div className="relative min-h-screen bg-white">
       {/* Background */}
       <Image
         src="/images/Background.png"
@@ -13,143 +29,66 @@ export default function NewsDetail() {
         className="absolute -z-10 object-cover"
       />
 
-      <div className="w-[80%] mx-auto py-20">
+      <div className="w-[90%] sm:w-[80%] mx-auto py-12 sm:py-20">
         {/* Title + Breadcrumb */}
         <div className="space-y-2">
-          <p className="text-4xl">
-            Crosson Holding’s 58th ordinary general <br /> assembly convened
-          </p>
+          <h1 className="text-2xl sm:text-4xl font-semibold">{article.title}</h1>
           <p className="flex items-center gap-2 text-xs text-gray-700">
-            <span>Home</span>
-            <FaArrowRight />
-            <span>News</span>
-            <FaArrowRight />
-            <span>
-              Crosson Holding’s 58th ordinary general assembly convened
-            </span>
+            <span>Home</span> <ArrowRight /> <span>News</span> <ArrowRight />{" "}
+            <span className="truncate max-w-xs">{article.title}</span>
           </p>
         </div>
 
         {/* Main Image */}
-        <div className="my-4">
-          <Image
-            src="/images/newsdetail/Rectangle 7.png"
-            alt="News Detail"
-            width={1200}
-            height={600}
-            className="w-full"
-          />
-        </div>
+        {article.imageUrl && (
+          <div className="my-6">
+            <Image
+              src={article.imageUrl}
+              alt={article.title}
+              width={1200}
+              height={600}
+              className="w-full rounded-lg object-cover"
+            />
+          </div>
+        )}
 
         {/* Content */}
-        <div>
-          <p className="text-2xl font-medium mb-4">
-            At the roots of Crosson, there is 20 years of experience in food
-            industry that is filled with research, increasing efficiency and
-            producing solution for food, quality, automation and software.
-          </p>
-          <p className="leading-relaxed text-gray-700">
-            Donut candy shortbread toffee dragée apple pie brownie. Muffin
-            chocolate halvah bonbon gummies cake apple pie. Croissant dessert
-            candy canes chocolate bar topping jujubes cupcake toffee dragée.
-            Fruitcake danish tart gummies tootsie roll dragée cheesecake
-            jujubes. Fruitcake powder marzipan dessert dessert oat cake candy.
-            Sweet roll sweet roll gummi bears tootsie roll dragée. Candy canes
-            brownie danish pudding jelly gummies.
-            <br /> <br />
-            Toffee jelly caramels macaroon bonbon dragée muffin halvah. Pudding
-            icing gingerbread sugar plum powder marzipan. Cotton candy carrot
-            cake pastry carrot cake jelly danish. Ice ceam muffin marshmallow
-            sesame snaps pie cupcake tart. Lemon drops macaroon lemon drops
-            chocolate cookie cupcake marshmallow donut. Cotton candy candy canes
-            cake oat cake jelly.
-            <br /> <br />
-            Muffin chocolate halvah bonbon gummies cake apple pie. Croissant
-            dessert candy canes chocolate bar topping jujubes cupcake toffee
-            dragée. Fruitcake danish tart gummies tootsie roll dragée cheesecake
-            jujubes. Fruitcake powder marzipan dessert dessert oat cake candy.
-            Sweet roll sweet roll gummi bears tootsie roll dragée. Candy canes
-            brownie danish pudding jelly gummies.
-            <br /> <br />
-            Pudding icing gingerbread sugar plum powder marzipan. Cotton candy
-            carrot cake pastry carrot cake jelly danish. Ice cream muffin
-            marshmallow sesame snaps pie cupcake tart. Lemon drops macaroon
-            lemon drops chocolate cookie cupcake marshmallow donut. Cotton candy
-            candy canes cake oat cake jelly.
-          </p>
+        <div className="prose prose-neutral max-w-none">
+          {article.content?.map((p, idx) => (
+            <p key={idx} dangerouslySetInnerHTML={{ __html: p }} />
+          ))}
         </div>
 
-        {/* Related News */}
+        {/* Related News placeholder */}
         <div className="my-10">
-          <div className="flex justify-between items-center">
-            <div>
-              <p className="text-4xl mb-4 relative inline-block pb-2 after:content-[''] after:absolute after:bottom-[-15px] after:left-0 after:w-[40%] after:h-[14px] after:bg-yellow-400">
-                Related News
-              </p>
-              <p className="text-gray-700">
-                Cake pudding lollipop pastry cupcake chocolate. Gummi bears
-                halvah sesame snaps <br /> chocolate cake gummies sugar plum
-                cotton candy cupcake sweet
-              </p>
-            </div>
-          </div>
-
-          <div className="flex flex-col md:flex-row gap-10 my-10">
-            {/* Related Item 1 */}
-            <div className="w-full flex gap-10 items-center">
-              <div>
-                <Image
-                  src="/images/main/Image (1).png"
-                  alt="Related News 1"
-                  width={250}
-                  height={200}
-                  className="rounded"
-                />
+          <h2 className="text-2xl mb-6">Related News</h2>
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {relatedItems.map((it) => (
+              <div
+                key={it.id}
+                className="w-full flex flex-col transform transition-all duration-500 ease-out hover:scale-105 hover:-translate-y-2"
+              >
+                <div className="w-full mb-4 transform transition-transform duration-300 hover:scale-105">
+                  <Image
+                    src={it.imageUrl || "/images/newsdetail/image.jpg"}
+                    alt={it.title}
+                    width={400}
+                    height={250}
+                    className="w-full h-48 object-cover rounded-lg transform transition-all duration-300 hover:brightness-110"
+                  />
+                </div>
+                <div className="space-y-4 flex-1 flex flex-col">
+                  <h3 className="text-lg font-semibold line-clamp-2">{it.title}</h3>
+                  <p className="text-gray-600 text-sm flex-1">{it.desc}</p>
+                  <Link
+                    href={`/newsdetail/${it.id}`}
+                    className="bg-[#FCD900] w-full flex items-center justify-between px-6 py-3 font-medium rounded"
+                  >
+                    Read More <ArrowRight className="h-5 w-5" />
+                  </Link>
+                </div>
               </div>
-              <div className="space-y-4">
-                <p className="text-xl">
-                  Crosson Holding’s 58th ordinary general assembly convened
-                </p>
-                <p className="text-gray-600">
-                  Toffee sweet roll caramels oat cake lemon drops cupcake sweet
-                  roll halvah ice cream.
-                </p>
-                <a
-                  href="#"
-                  className="bg-[#FCD900] w-3/4 flex items-center gap-10 justify-between px-10 py-2 font-medium"
-                >
-                  Read More <FaArrowRight />
-                </a>
-              </div>
-            </div>
-
-            {/* Related Item 2 */}
-            <div className="w-full flex gap-10 items-center">
-              <div>
-                <Image
-                  src="/images/main/Image (2).png"
-                  alt="Related News 2"
-                  width={250}
-                  height={200}
-                  className="rounded"
-                />
-              </div>
-              <div className="space-y-4">
-                <p className="text-xl">
-                  Crosson Holding’s new Board of Directors has been determined.
-                </p>
-                <p className="text-gray-600">
-                  Toffee sweet roll caramels oat cake lemon drops cupcake sweet
-                  roll halvah ice cream.
-                </p>
-                <a
-                  href="#"
-                  className="bg-[#FCD900] w-3/4 flex items-center gap-10 justify-between px-10 py-2 font-medium"
-                >
-                  Read More <FaArrowRight />
-                </a>
-              </div>
-            </div>
+            ))}
           </div>
         </div>
       </div>

@@ -38,7 +38,7 @@ const sectors = [
     title: "Pipes & Fittings",
     img: "/images/main/Rectangle 1025.png",
   },
-  // Additional sectors for the detail page
+  // Additional sectors
   {
     title: "Steel Manufacturing",
     img: "/images/main/Rectangle 1017.png",
@@ -113,19 +113,30 @@ const sectors = [
   }
 ];
 
+const stats = [
+  { label: 'Industrial Sectors', value: 25 },
+  { label: 'Manufacturing Units', value: 5000 },
+  { label: 'Export Countries', value: 80 },
+  { label: 'Annual Exports ($)', value: 2500000000 },
+];
+
 export default function SectorsDetail() {
   const [isVisible, setIsVisible] = useState(false);
   const [animatedCards, setAnimatedCards] = useState<number[]>([]);
-  const sectionRef = useRef<HTMLElement>(null);
   const [itemsPerPage, setItemsPerPage] = useState<number>(12);
-  
+  const sectionRef = useRef<HTMLElement>(null);
+
+  // Stats animation state
+  const [statCounts, setStatCounts] = useState(stats.map(() => 0));
+
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             setIsVisible(true);
-            // Animate initially visible cards (staggered)
+
+            // Animate cards
             const initialCount = Math.min(itemsPerPage, sectors.length);
             sectors.slice(0, initialCount).forEach((_, index) => {
               setTimeout(() => {
@@ -134,11 +145,32 @@ export default function SectorsDetail() {
                 );
               }, index * 80);
             });
+
+            // Animate stats numbers
+            stats.forEach((stat, index) => {
+              let start = 0;
+              const duration = 2000; // 2 seconds
+              const increment = stat.value / (duration / 50);
+
+              const counter = setInterval(() => {
+                start += increment;
+                if (start >= stat.value) {
+                  start = stat.value;
+                  clearInterval(counter);
+                }
+                setStatCounts(prev => {
+                  const newCounts = [...prev];
+                  newCounts[index] = Math.floor(start);
+                  return newCounts;
+                });
+              }, 50);
+            });
+
             observer.unobserve(entry.target);
           }
         });
       },
-      { threshold: 0.1 }
+      { threshold: 0.2 }
     );
 
     if (sectionRef.current) {
@@ -146,9 +178,8 @@ export default function SectorsDetail() {
     }
 
     return () => observer.disconnect();
-  }, []);
+  }, [itemsPerPage]);
 
-  // When user clicks "Load More" (itemsPerPage changes) animate the newly visible cards
   useEffect(() => {
     if (!isVisible) return;
     const start = animatedCards.length;
@@ -175,28 +206,26 @@ export default function SectorsDetail() {
         <div className="w-32 h-2 bg-[#FCD900] mx-auto mt-8"></div>
       </div>
 
-      {/* Stats Section */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-16">
-        <div className="text-center p-6 bg-gray-50 rounded-lg">
-          <h3 className="text-3xl font-bold text-[#FCD900] mb-2">25+</h3>
-          <p className="text-gray-600">Industrial Sectors</p>
-        </div>
-        <div className="text-center p-6 bg-gray-50 rounded-lg">
-          <h3 className="text-3xl font-bold text-[#FCD900] mb-2">5000+</h3>
-          <p className="text-gray-600">Manufacturing Units</p>
-        </div>
-        <div className="text-center p-6 bg-gray-50 rounded-lg">
-          <h3 className="text-3xl font-bold text-[#FCD900] mb-2">80+</h3>
-          <p className="text-gray-600">Export Countries</p>
-        </div>
-        <div className="text-center p-6 bg-gray-50 rounded-lg">
-          <h3 className="text-3xl font-bold text-[#FCD900] mb-2">2.5B+</h3>
-          <p className="text-gray-600">Annual Exports ($)</p>
-        </div>
-      </div>
+   {/* Stats Section (2 per row on mobile, 4 on md+) */}
+<div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-16">
+  {stats.map((stat, index) => (
+    <div
+      key={index}
+      className="text-center p-6 bg-gray-50 rounded-lg flex flex-col items-center justify-center"
+    >
+      <h3 className="text-2xl sm:text-3xl md:text-3xl font-bold text-[#FCD900] mb-2 break-words">
+        {statCounts[index].toLocaleString()}
+      </h3>
+      <p className="text-sm sm:text-base md:text-base text-gray-600 break-words">
+        {stat.label}
+      </p>
+    </div>
+  ))}
+</div>
+
 
       {/* Grid */}
-      <div className="grid md:grid-cols-4 gap-8">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8">
         {sectors.slice(0, itemsPerPage).map((sector, index) => (
           <div 
             key={index} 
@@ -234,20 +263,34 @@ export default function SectorsDetail() {
         ))}
       </div>
 
-      {/* Load More */}
-      {sectors.length > itemsPerPage && (
-        <div className="text-center mt-8">
-          <div className="mb-4 text-gray-600">
-            Showing {Math.min(itemsPerPage, sectors.length)} of {sectors.length} sectors
-          </div>
+      {/* Load More / Show Less */}
+{sectors.length > 12 && (
+  <div className="text-center mt-8">
+    <div className="mb-4 text-gray-600">
+      Showing {Math.min(itemsPerPage, sectors.length)} of {sectors.length} sectors
+    </div>
+    <div className="flex justify-center gap-4 flex-wrap">
+      {itemsPerPage < sectors.length ? (
+        <button
+          onClick={() => setItemsPerPage(prev => Math.min(sectors.length, prev + 12))}
+          className="bg-[#FCD900] hover:bg-yellow-500 text-black px-8 py-3 font-medium rounded-lg transition-colors duration-300 flex items-center gap-2"
+        >
+          Load More <FaArrowRight />
+        </button>
+      ) : (
+        <>
           <button
-            onClick={() => setItemsPerPage(prev => Math.min(sectors.length, prev + 12))}
-            className="bg-[#FCD900] hover:bg-yellow-500 text-black px-8 py-3 font-medium rounded-lg transition-colors duration-300 flex items-center gap-2 mx-auto"
+            onClick={() => setItemsPerPage(12)}
+            className="bg-gray-200 hover:bg-gray-300 text-black px-8 py-3 font-medium rounded-lg transition-colors duration-300 flex items-center gap-2"
           >
-            Load More <FaArrowRight />
+            Show Less
           </button>
-        </div>
+        </>
       )}
+    </div>
+  </div>
+)}
+
 
       {/* Call to Action */}
       <div className="text-center mt-16">
