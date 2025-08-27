@@ -67,12 +67,13 @@ export default function NewsSection() {
                 <div className="space-y-4 flex-1 flex flex-col">
                   <h3 className="text-xl font-semibold line-clamp-2">{item.title}</h3>
                   <p className="text-gray-600 text-sm flex-1">{item.desc}</p>
-                  <Link
-                    href={`/newsdetail/${item.id}`}
-                    className="bg-[#FCD900] w-full flex items-center justify-between px-6 py-3 font-medium rounded hover:bg-yellow-500 transition-colors"
-                  >
-                    Read More <FaArrowRight />
-                  </Link>
+                 <Link
+  href={`/news/${item.id}`}
+  className="bg-[#FCD900] w-full flex items-center justify-between px-6 py-3 font-medium rounded hover:bg-yellow-500 transition-colors"
+>
+  Read More <FaArrowRight />
+</Link>
+
                 </div>
               </div>
             ))}

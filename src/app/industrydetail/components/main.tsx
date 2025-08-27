@@ -131,14 +131,14 @@ export default function IndustriesDetail() {
         ref={sectionRef}
         className="w-[90%] mx-auto my-20"
       >
-        <div className="flex flex-col lg:flex-row gap-10 my-10">
+        <div className="flex flex-col lg:flex-row gap-10 my-8">
           {/* Sidebar / Categories */}
           <div className="w-full lg:w-[20%]">
-            <h3 className="text-lg font-semibold mb-4 text-gray-800">
+            <h3 className="text-lg font-semibold mb-4 text-gray-800 -mt-10">
               Categories
             </h3>
             {/* Horizontal scroll on mobile */}
-            <ul className="flex lg:flex-col gap-2 overflow-x-auto lg:overflow-y-auto no-scrollbar">
+            <ul className="flex lg:flex-col gap-2 overflow-x-auto lg:overflow-y-auto no-scrollbar ">
               {categories.map((cat) => (
                 <li
                   key={cat}
@@ -179,7 +179,7 @@ export default function IndustriesDetail() {
                     alt={`${industry.name} logo`}
                     width={64}
                     height={64}
-                    className="absolute -bottom-8 left-6 w-16 h-16"
+                    className="absolute -bottom-10 left-12 w-16 h-16"
                   />
                 </div>
                 <div className="py-8 px-4 space-y-2">

@@ -295,7 +295,7 @@ export default function SectorsDetail() {
       {/* Call to Action */}
       <div className="text-center mt-16">
         <h2 className="text-2xl md:text-3xl font-semibold text-gray-800 mb-6">
-          Ready to Explore More?
+         Want to Become a Partner?
         </h2>
         <p className="text-gray-600 mb-8 max-w-2xl mx-auto">
           Connect with Gujranwala's leading manufacturers and discover opportunities 

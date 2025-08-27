@@ -87,7 +87,7 @@ export default function AboutPage() {
                   <p className="text-xs md:text-sm text-gray-600">
                     Center we have developed many patents in filling and packaging technology.
                   </p>
-                  <a href="#" className="flex items-center gap-2 md:gap-4 text-sm md:text-base text-[#FCD900] font-medium hover:underline">
+                  <a href="/mission" className="flex items-center gap-2 md:gap-4 text-sm md:text-base text-[#FCD900] font-medium hover:underline">
                     <span>Read More</span>
                     <FaArrowRight />
                   </a>
@@ -108,7 +108,7 @@ export default function AboutPage() {
                   <p className="text-xs md:text-sm text-gray-600">
                     Center we have developed many patents in filling and packaging technology.
                   </p>
-                  <a href="#" className="flex items-center gap-2 md:gap-4 text-sm md:text-base text-[#FCD900] font-medium hover:underline">
+                  <a href="/mission" className="flex items-center gap-2 md:gap-4 text-sm md:text-base text-[#FCD900] font-medium hover:underline">
                     <span>Read More</span>
                     <FaArrowRight />
                   </a>

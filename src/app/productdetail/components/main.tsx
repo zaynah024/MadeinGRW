@@ -3,6 +3,8 @@
 import Image from "next/image";
 import { FaArrowRight, FaFilter, FaSearch } from "react-icons/fa";
 import { useState, useEffect } from "react";
+import Link from "next/link";
+import { productsData } from "@/data/products";
 
 // Fallback products data for the detail page
 const fallbackProducts = [
@@ -254,7 +256,7 @@ export default function ProductDetail() {
     className="absolute -z-10 w-full h-full object-cover"
   />
 
-  <main className="w-[95%] lg:w-[85%] xl:w-[80%] mx-auto relative z-10 overflow-x-hidden max-w-full">
+<main className="w-[95%] lg:w-[85%] xl:w-[80%] mx-auto relative z-10 overflow-x-hidden max-w-full pt-16 md:pt-0">
     {/* Breadcrumb */}
 <div className="py-2 md:py-10 overflow-x-hidden">
   <p className="text-3xl md:text-4xl font-medium">Product Catalog</p>
@@ -279,14 +281,14 @@ export default function ProductDetail() {
 </div>
 
 
-    {/* Filters and Search */}
+   {/* Filters and Search */}
 <div className="w-full flex justify-center mb-6 md:mb-8">
   <div
-    className="rounded-lg p-4 md:p-6 flex flex-col lg:flex-row gap-4 md:gap-6 items-center justify-center shadow-md w-full max-w-5xl
+    className="rounded-lg p-4 md:p-6 flex flex-col md:flex-row gap-4 md:gap-6 items-center justify-center shadow-md w-full max-w-5xl
                bg-white/0 md:bg-white/80 backdrop-blur-none md:backdrop-blur-md"
   >
-    {/* Search */}
-    <div className="relative flex-1 max-w-md">
+    {/* Search (larger on desktop) */}
+    <div className="relative flex-[2] w-full md:w-auto">
       <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
       <input
         type="text"
@@ -297,39 +299,45 @@ export default function ProductDetail() {
       />
     </div>
 
-    {/* Category */}
-    <div className="flex items-center gap-2 md:gap-3 w-full lg:w-auto">
-      <FaFilter className="text-gray-600" />
-      <select
-        value={activeCategory}
-        onChange={(e) => setActiveCategory(e.target.value)}
-        className="border border-gray-300 rounded-lg px-3 md:px-4 py-2 text-sm md:text-base focus:outline-none focus:ring-2 focus:ring-[#FCD900] focus:border-transparent w-full lg:w-auto"
-      >
-        {categories.map((cat) => (
-          <option key={cat} value={cat}>
-            {cat}
-          </option>
-        ))}
-      </select>
-    </div>
+    {/* Category + Sort (smaller on desktop) */}
+    <div className="flex flex-1 flex-row items-center gap-2 w-full md:w-auto">
+      {/* Category */}
+      <div className="flex items-center gap-2 flex-1">
+        <FaFilter className="text-gray-600" />
+        <select
+          value={activeCategory}
+          onChange={(e) => setActiveCategory(e.target.value)}
+          className="border border-gray-300 rounded-lg px-3 py-2 text-sm md:text-sm focus:outline-none focus:ring-2 focus:ring-[#FCD900] focus:border-transparent w-full"
+        >
+          {categories.map((cat) => (
+            <option key={cat} value={cat}>
+              {cat}
+            </option>
+          ))}
+        </select>
+      </div>
 
-    {/* Sort */}
-    <div className="flex items-center gap-2 md:gap-3 w-full lg:w-auto">
-      <span className="text-gray-600 font-medium text-sm md:text-base">Sort by:</span>
-      <select
-        value={sortBy}
-        onChange={(e) => setSortBy(e.target.value)}
-        className="border border-gray-300 rounded-lg px-3 md:px-4 py-2 text-sm md:text-base focus:outline-none focus:ring-2 focus:ring-[#FCD900] focus:border-transparent w-full lg:w-auto"
-      >
-        <option value="default">Default</option>
-        <option value="name">Name A-Z</option>
-        <option value="name-desc">Name Z-A</option>
-        <option value="category">Category</option>
-        <option value="newest">Newest</option>
-      </select>
+      {/* Sort */}
+      <div className="flex items-center gap-2 flex-1">
+        <span className="text-gray-600 font-medium text-xs md:text-sm whitespace-nowrap">
+          Sort:
+        </span>
+        <select
+          value={sortBy}
+          onChange={(e) => setSortBy(e.target.value)}
+          className="border border-gray-300 rounded-lg px-3 py-2 text-sm md:text-sm focus:outline-none focus:ring-2 focus:ring-[#FCD900] focus:border-transparent w-full"
+        >
+          <option value="default">Default</option>
+          <option value="name">Name A-Z</option>
+          <option value="name-desc">Name Z-A</option>
+          <option value="category">Category</option>
+          <option value="newest">Newest</option>
+        </select>
+      </div>
     </div>
   </div>
 </div>
+
 
 
     {/* Results */}
@@ -355,35 +363,39 @@ export default function ProductDetail() {
       /* Products Grid */
 <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mb-12">
         {sortedProducts.slice(0, itemsPerPage).map((product, index) => (
-          <div
-            key={product.id}
-            className="hover:scale-105 transition-all duration-500 ease-out hover:-translate-y-1 transform bg-white rounded-lg shadow-md overflow-hidden"
-            style={{ animationDelay: `${index * 50}ms` }}
-          >
-            <Image
-              src={product.src}
-              alt={product.name}
-              width={300}
-              height={300}
-              className="w-full h-48 md:h-56 object-cover transform transition-all duration-300 hover:scale-105 hover:brightness-110"
-            />
-            <div className="p-4">
-              <h3 className="text-md md:text-lg font-semibold text-gray-800 mb-2 text-center">
-                {product.name}
-              </h3>
-              <p className="text-gray-600 text-sm md:text-base mb-3 text-center line-clamp-2">
-                {product.description}
-              </p>
-              <div className="flex items-center justify-between">
-                <span className="text-[#FCD900] font-semibold text-sm px-2 py-1 rounded-full text-center">
-                  {product.category}
-                </span>
-                <button className="bg-[#FCD900] text-black px-3 md:px-4 py-2 rounded-md text-sm md:text-base font-medium hover:bg-yellow-500 transition-colors">
-                  View Details
-                </button>
-              </div>
-            </div>
-          </div>
+        <div
+  key={product.id}
+  className="hover:scale-105 transition-all duration-500 ease-out hover:-translate-y-1 transform bg-white rounded-lg shadow-md overflow-hidden flex flex-col"
+  style={{ animationDelay: `${index * 50}ms` }}
+>
+  <Image
+    src={product.src}
+    alt={product.name}
+    width={300}
+    height={300}
+    className="w-full h-48 md:h-56 object-cover transform transition-all duration-300 hover:scale-105 hover:brightness-110"
+  />
+  <div className="p-4 flex flex-col items-center md:items-start">
+    <h3 className="text-md md:text-lg font-semibold text-gray-800 mb-2 text-center md:text-left">
+      {product.name}
+    </h3>
+    <p className="text-gray-600 text-sm md:text-base mb-3 text-center md:text-left line-clamp-2">
+      {product.description}
+    </p>
+    <div className="flex flex-col md:flex-row items-center md:items-start justify-center md:justify-between gap-2 w-full">
+      <span className="text-[#FCD900] font-semibold text-sm px-2 py-1 rounded-full text-center">
+        {product.category}
+      </span>
+      <Link
+        href={`/singleproduct/${product.id}`}
+        className="bg-[#FCD900] text-black px-3 md:px-4 py-2 rounded-md text-sm md:text-base font-medium hover:bg-yellow-500 transition-colors inline-flex items-center gap-2"
+      >
+        View Details <FaArrowRight />
+      </Link>
+    </div>
+  </div>
+</div>
+
         ))}
       </div>
     )}
@@ -405,10 +417,11 @@ export default function ProductDetail() {
   <div className="w-full bg-gradient-to-r from-[#FCD900] to-yellow-400 py-10 md:py-12 mt-12">
     <div className="text-center w-[95%] md:w-[80%] lg:w-[70%] mx-auto">
       <h2 className="text-2xl md:text-3xl font-semibold text-black mb-4">
-        Need Custom Solutions?
+       Want to Become a Partner?
       </h2>
       <p className="text-black mb-6 text-sm md:text-base max-w-2xl mx-auto">
-        We specialize in custom manufacturing and can create products tailored to your specific requirements.
+        Connect with Gujranwala's leading manufacturers and discover opportunities 
+          in Pakistan's most dynamic industrial region.
       </p>
       <a
         href="/contactus"

@@ -5,10 +5,7 @@ import Image from "next/image";
 
 const HeroSection = () => {
   return (
-    <div
-      className="relative w-full overflow-hidden md:h-[calc(100vh-120px)]"
-      // ❌ remove fixed height on mobile, keep only for md+
-    >
+    <div className="relative w-full overflow-hidden md:h-[calc(100vh-120px)]">
       {/* Desktop Background Image */}
       <div
         className="absolute inset-0 hidden md:block bg-cover bg-center bg-no-repeat"
@@ -24,16 +21,16 @@ const HeroSection = () => {
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row">
           <div className="max-w-2xl text-center md:text-left">
             {/* Headline */}
-            <h1 className="text-black text-2xl md:text-3xl lg:text-4xl font-semi-bold mb-6 leading-tight animate-fade-in-left">
+            <h1 className="text-black text-3xl sm:text-2xl md:text-3xl lg:text-4xl font-semibold mb-6 leading-tight animate-fade-in-left">
               <span className="block font-['Roboto']">Crafted with Pride -</span>
               <span className="block font-['Roboto']">Made in Gujranwala</span>
             </h1>
 
             {/* Yellow Line */}
-            <div className="mx-auto md:mx-0 w-50 h-1 bg-[#FCD900] mb-4 animate-line-complete"></div>
+            <div className="mx-auto md:mx-0 w-32 md:w-48 h-1 bg-[#FCD900] mb-4 animate-line-complete"></div>
 
             {/* Subheading */}
-            <p className="text-black text-sm md:text-base lg:text-lg mb-8 leading-relaxed max-w-xl animate-fade-in-left-delayed">
+            <p className="text-black text-lg sm:text-base md:text-lg lg:text-xl mb-8 leading-relaxed max-w-xl animate-fade-in-left-delayed">
               Experience the heritage, skill, and quality from the heart <br />
               of Pakistan's industrial city.
             </p>

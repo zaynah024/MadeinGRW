@@ -134,44 +134,29 @@ if (unique.length) setCategories(["All", ...unique]);
 			</div>
 
 			{/* Categories + Cards */}
-			<div className="flex flex-col md:flex-row gap-10 my-10">
-				{/* Sidebar (Desktop) */}
-				<div className="hidden md:block w-[15%]">
-					<ul className="space-y-4">
-						{categories.map((cat) => (
-							<li
-								key={cat}
-								className={`px-10 cursor-pointer ${
-									activeCategory === cat
-										? "text-[#2947A9] font-semibold border-l-4 border-[#2947A9]"
-										: ""
-								}`}
-								onClick={() => setActiveCategory(cat)}
-							>
-								{cat}
-							</li>
-						))}
-					</ul>
-				</div>
-
-				{/* Categories Top (Mobile) */}
-				<div className="md:hidden w-full overflow-x-auto">
-					<ul className="flex gap-6 pb-2">
-						{categories.map((cat) => (
-							<li
-								key={cat}
-								className={`whitespace-nowrap cursor-pointer ${
-									activeCategory === cat
-										? "text-[#2947A9] font-semibold border-b-2 border-[#2947A9]"
-										: ""
-								}`}
-								onClick={() => setActiveCategory(cat)}
-							>
-								{cat}
-							</li>
-						))}
-					</ul>
-				</div>
+			<div className="flex flex-col lg:flex-row gap-10 my-10">
+          {/* Sidebar / Categories */}
+          <div className="w-full lg:w-[20%]">
+            <h3 className="text-lg font-semibold mb-4 text-gray-800">
+              Categories
+            </h3>
+            {/* Horizontal scroll on mobile */}
+            <ul className="flex lg:flex-col gap-2 overflow-x-auto lg:overflow-y-auto no-scrollbar">
+              {categories.map((cat) => (
+                <li
+                  key={cat}
+                  className={`px-4 py-2 cursor-pointer rounded transition-colors whitespace-nowrap ${
+                    activeCategory === cat
+                      ? "text-[#2947A9] font-semibold bg-blue-50 border-l-4 border-[#2947A9]"
+                      : "text-gray-600 hover:text-[#2947A9] hover:bg-gray-50"
+                  }`}
+                  onClick={() => setActiveCategory(cat)}
+                >
+                  {cat}
+                </li>
+              ))}
+            </ul>
+          </div>
 
 				{/* Cards */}
 				<div className="w-full md:w-[85%] grid grid-cols-2 md:grid-cols-3 gap-6 md:gap-10">
@@ -200,12 +185,12 @@ if (unique.length) setCategories(["All", ...unique]);
 									className="w-full h-auto"
 								/>
 								<Image
-									src={industry.logo}
-									alt={`${industry.name} logo`}
-									width={64}
-									height={64}
-									className="absolute -bottom-10 left-10 w-16 h-16"
-								/>
+  src={industry.logo}
+  alt={`${industry.name} logo`}
+  width={64}
+  height={64}
+  className="absolute -bottom-10 left-11 w-16 h-16 rounded-full bg-white"
+/>
 							</div>
 							<div className="py-8 px-4 space-y-2">
 								<p className="text-2xl font-semibold">{industry.name}</p>

@@ -3,6 +3,8 @@
 import Image from "next/image";
 import { FaArrowRight } from "react-icons/fa";
 import { useState, useEffect } from "react";
+import Link from "next/link";
+import { productsData } from "@/data/products";
 
 // Fallback products data
 const fallbackProducts = [
@@ -172,25 +174,26 @@ export default function ProductsSection() {
   /* Product Grid */
   <div className="grid grid-cols-3 md:grid-cols-5 my-10 gap-6">
     {products.slice(0, 10).map((item, index) => (
-      <div
-        key={item.id || index}
-        className="hover:scale-105 transition-all duration-500 ease-out hover:-translate-y-2 animate-fade-in-up transform"
-        style={{ animationDelay: `${index * 100}ms` }}
-      >
-        <Image
-          src={item.src}
-          alt={`Product ${item.name}`}
-          width={250}
-          height={250}
-          className="w-full h-auto transform transition-all duration-300 hover:scale-105 hover:brightness-110"
-        />
-        <p
-          className="text-center mt-2 text-base sm:text-xl md:text-3xl font-medium transform transition-all duration-300 hover:text-[#2947A9] hover:scale-105"
-          style={{ fontFamily: 'DM Sans, sans-serif' }}
+      <Link key={item.id} href={`/singleproduct/${item.id}`} className="group block">
+        <div
+          className="hover:scale-105 transition-all duration-500 ease-out hover:-translate-y-2 animate-fade-in-up transform bg-white rounded-lg overflow-hidden"
+          style={{ animationDelay: `${index * 100}ms` }}
         >
-          {item.name}
-        </p>
-      </div>
+          <Image
+            src={item.src}
+            alt={`Product ${item.name}`}
+            width={250}
+            height={250}
+            className="w-full h-auto transform transition-all duration-300 group-hover:scale-105 group-hover:brightness-110"
+          />
+          <p
+            className="text-center mt-2 text-base sm:text-xl md:text-2xl font-medium transform transition-all duration-300 group-hover:text-[#2947A9] group-hover:scale-105 py-2"
+            style={{ fontFamily: "DM Sans, sans-serif" }}
+          >
+            {item.name}
+          </p>
+        </div>
+      </Link>
     ))}
   </div>
 )}

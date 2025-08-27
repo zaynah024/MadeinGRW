@@ -65,7 +65,7 @@ const Header = () => {
         </div>
 
         {/* Bottom Navigation Bar */}
-        <nav className="border-b border-gray-200">
+        <nav className="lg:border-b lg:border-gray-200">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
             {/* Desktop Nav */}
             <div className="hidden lg:flex justify-center items-center h-16">
@@ -130,13 +130,13 @@ const Header = () => {
             </div>
 
             {/* Mobile Nav */}
-            <div className="flex justify-between items-center h-16 lg:hidden">
+            <div className="flex justify-between items-center h-14 lg:hidden">
               {/* Logo only */}
               <a href="/">
                 <img
                   src="/images/logo.png"
                   alt="MadeinGRW Logo"
-                  className="h-6 sm:h-10 lg:h-12 w-auto"
+                  className="h-6 sm:h-10 w-auto"
                 />
               </a>
 
@@ -151,7 +151,7 @@ const Header = () => {
 
             {/* Mobile Menu Drawer */}
             {menuOpen && (
-              <div className="lg:hidden absolute top-16 left-0 w-full bg-white border-t border-gray-200 shadow-md z-50">
+              <div className="lg:hidden absolute top-14 left-0 w-full bg-white border-t border-gray-200 shadow-md z-50">
                 <ul className="flex flex-col space-y-4 px-6 py-6 text-sm font-medium">
                   <li>
                     <a
@@ -241,7 +241,7 @@ const Header = () => {
       </header>
 
       {/* Add padding so content isn't hidden behind fixed header */}
-      <main className="pt-28">
+      <main className="pt-4 lg:pt-28">
         {/* ✅ Page content goes here */}
       </main>
     </>
