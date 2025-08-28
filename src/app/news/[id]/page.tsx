@@ -3,11 +3,8 @@ import { newsData, NewsArticle } from "@/data/news";
 import Header from '../../home/components/header';
 import Footer from '../../home/components/footer';
 
-interface NewsPageProps {
-  params: { id: string };
-}
-
-export default function NewsPage({ params }: NewsPageProps) {
+// Make the page async — Next.js expects async for dynamic routes / static params
+export default async function NewsPage({ params }: { params: { id: string } }) {
   const { id } = params;
 
   const article: NewsArticle | undefined = newsData.find((n) => n.id === id);
@@ -63,7 +60,7 @@ export default function NewsPage({ params }: NewsPageProps) {
   );
 }
 
-// Optional: generate static params for SSG
+// Generate static paths for SSG
 export function generateStaticParams() {
   return newsData.map((article) => ({ id: article.id }));
 }
