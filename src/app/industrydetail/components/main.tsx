@@ -156,15 +156,19 @@ export default function IndustriesDetail() {
           </div>
 
           {/* Cards */}
-          <div className="lg:w-[80%] grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {filteredIndustries.map((industry, index) => (
+          <div className="w-full md:w-[85%] grid grid-cols-2 md:grid-cols-3 gap-6 md:gap-10">
+            {industries.map((industry, index) => (
               <div
                 key={industry.id}
-                className={`shadow-md rounded-lg hover:shadow-xl transition-all duration-800 ease-out transform hover:scale-105 ${
+                className={`shadow-xl rounded-md hover:shadow-2xl transition-all duration-1000 ease-out transform ${
                   animatedCards.includes(index)
                     ? "opacity-100 translate-y-0 scale-100"
                     : "opacity-0 translate-y-20 scale-95"
                 }`}
+                style={{
+                  transitionDelay: animatedCards.includes(index) ? "0ms" : "0ms",
+                  transitionTimingFunction: "cubic-bezier(0.25, 0.46, 0.45, 0.94)",
+                }}
               >
                 <div className="relative">
                   <Image
@@ -172,21 +176,19 @@ export default function IndustriesDetail() {
                     alt={industry.name}
                     width={400}
                     height={200}
-                    className="w-full h-auto rounded-t-lg"
+                    className="w-full h-auto"
                   />
                   <Image
                     src={industry.logo}
                     alt={`${industry.name} logo`}
                     width={64}
                     height={64}
-                    className="absolute -bottom-10 left-12 w-16 h-16"
+                    className="absolute -bottom-10 left-11 w-16 h-16 rounded-full bg-white"
                   />
                 </div>
                 <div className="py-8 px-4 space-y-2">
-                  <p className="text-xl font-semibold text-gray-800">
-                    {industry.name}
-                  </p>
-                  <p className="text-gray-600">{industry.category}</p>
+                  <p className="text-2xl mt-2 font-semibold">{industry.name}</p>
+                  <p>{industry.category}</p>
                 </div>
                 <div className="border-t border-gray-200">
                   <div className="p-4 flex items-center gap-4 cursor-pointer hover:text-[#2947A9] transition-colors">
@@ -194,17 +196,17 @@ export default function IndustriesDetail() {
                       href={`/companydetails/${industry.id}`}
                       className="flex items-center gap-4 w-full"
                     >
-                      <span className="p-2 bg-[#FCD900] rounded-full">
-                        <FaEarthAmericas className="w-4 h-4" />
-                      </span>
-                      <p className="font-medium">View Profile</p>
-                    </a>
+                              <span className="p-2 bg-[#FCD900] rounded-full">
+                                  <FaEarthAmericas className="w-4 h-4" />
+                                </span>
+                              <p>View Profile</p>
+                            </a>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
                   </div>
                 </div>
-              </div>
-            ))}
-          </div>
-        </div>
       </section>
     </>
   );

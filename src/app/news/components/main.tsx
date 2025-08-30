@@ -43,7 +43,15 @@ export default function NewsSection() {
       <main className="w-[90%] md:w-[80%] mx-auto py-6 md:py-20">
         {/* Heading */}
         <div className="my-10">
-          <p className="text-4xl font-medium">News</p>
+          <p className="text-5xl font-semibold">News</p>
+          <div>
+            
+            <div className="flex items-center gap-2 text-m text-gray-600 mt-2">
+              <span>Home</span>
+              <span className="mx-1">&rarr;</span>
+              <span>News</span>
+            </div>
+          </div>
         </div>
 
         {/* News Grid */}
@@ -65,15 +73,16 @@ export default function NewsSection() {
                 </div>
                 {/* Details and button below */}
                 <div className="space-y-4 flex-1 flex flex-col">
-                  <h3 className="text-xl font-semibold line-clamp-2">{item.title}</h3>
+                  <h3 className="text-xl font-semibold line-clamp-2">
+                    {item.title}
+                  </h3>
                   <p className="text-gray-600 text-sm flex-1">{item.desc}</p>
-                 <Link
-  href={`/news/${item.id}`}
-  className="bg-[#FCD900] w-full flex items-center justify-between px-6 py-3 font-medium rounded hover:bg-yellow-500 transition-colors"
->
-  Read More <FaArrowRight />
-</Link>
-
+                  <Link
+                    href={`/news/${item.id}`}
+                    className="bg-[#FCD900] w-full flex items-center justify-between px-6 py-3 font-medium rounded hover:bg-yellow-500 transition-colors"
+                  >
+                    Read More <FaArrowRight />
+                  </Link>
                 </div>
               </div>
             ))}

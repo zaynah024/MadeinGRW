@@ -126,12 +126,14 @@ export default function AboutGujranwala() {
       </div>
 
       {/* Background Image */}
-      <div 
-        className="-z-2 absolute bottom-0 left-0 w-full h-full opacity-100 bg-contain bg-center bg-no-repeat translate-y-1/2"
-        style={{
-          backgroundImage: "url('/images/main/What We Do.png')"
-        }}
-      ></div>
+     {/* Background Image */}
+<div
+  className="absolute pointer-events-none inset-0 z-0 bg-cover bg-center bg-no-repeat scale-105 md:scale-110 opacity-50"
+  style={{
+    backgroundImage: "url('/images/main/What We Do.png')",
+  }}
+></div>
+
     </section>
   );
 }

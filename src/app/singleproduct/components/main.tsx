@@ -145,10 +145,16 @@ export default function SingleProduct({ product }: { product?: Product | null })
           </p>
         ) : (
           <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {companies.map((ind) => (
+            {companies.map((ind, index) => (
               <div
                 key={ind.id}
-                className="shadow-md rounded-md hover:shadow-lg transition-all duration-700 ease-out"
+                className={`shadow-xl rounded-md hover:shadow-2xl transition-all duration-1000 ease-out transform ${
+                  "opacity-100 translate-y-0 scale-100"
+                }`}
+                style={{
+                  transitionDelay: "0ms",
+                  transitionTimingFunction: "cubic-bezier(0.25, 0.46, 0.45, 0.94)",
+                }}
               >
                 <div className="relative">
                   <Image
@@ -163,11 +169,11 @@ export default function SingleProduct({ product }: { product?: Product | null })
                     alt={`${ind.name} logo`}
                     width={64}
                     height={64}
-                    className="absolute -bottom-10 left-14 w-18 h-18"
+                    className="absolute -bottom-10 left-10 w-16 h-16 rounded-full bg-white"
                   />
                 </div>
                 <div className="py-8 px-4 space-y-2">
-                  <p className="text-2xl font-semibold">{ind.name}</p>
+                  <p className="text-2xl mt-2 font-semibold">{ind.name}</p>
                   <p>{ind.category}</p>
                 </div>
                 <div className="border-t border-gray-200">
@@ -175,8 +181,8 @@ export default function SingleProduct({ product }: { product?: Product | null })
                     href={`/companydetails/${ind.id}`}
                     className="p-4 flex items-center gap-4 cursor-pointer hover:text-[#2947A9] transition-colors"
                   >
-                    <span className="p-1 bg-[#FCD900] rounded-full px-2">
-                      <FaEarthAmericas />
+                    <span className="p-2 bg-[#FCD900] rounded-full">
+                      <FaEarthAmericas className="w-4 h-4" />
                     </span>
                     <p>View Profile</p>
                   </Link>

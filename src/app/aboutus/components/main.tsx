@@ -28,9 +28,9 @@ export default function AboutPage() {
             <div className="flex items-center text-xs md:text-sm mt-2 gap-2 text-gray-500">
               <span>Home</span>
               <FaArrowRight />
-              <span>Corporate</span>
+              <span>About Us</span>
               <FaArrowRight />
-              <span>About Crosson</span>
+              <span>About Made in Gujranwala</span>
             </div>
           </div>
 

@@ -184,7 +184,7 @@ export default function ProductsSection() {
             alt={`Product ${item.name}`}
             width={250}
             height={250}
-            className="w-full h-auto transform transition-all duration-300 group-hover:scale-105 group-hover:brightness-110"
+            className="w-full h-auto transform transition-all duration-300 group-hover:scale-105 "
           />
           <p
             className="text-center mt-2 text-base sm:text-xl md:text-2xl font-medium transform transition-all duration-300 group-hover:text-[#2947A9] group-hover:scale-105 py-2"

@@ -256,7 +256,7 @@ export default function SectorsDetail() {
               height={300}
               className="absolute top-0"
             />
-            <p className="text-white text-lg absolute bottom-2 left-8">
+            <p className="text-white text-lg absolute bottom-2 left-8 font-semibold">
               {sector.title}
             </p>
           </div>
